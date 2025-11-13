@@ -25,6 +25,30 @@
     <link rel="icon" type="image/png" sizes="16x16" href="upbizfavicon-16x16.png">
     <link rel="manifest" href="site.webmanifest">
 
+    <style>
+        /* Hide preloader if it has been shown before */
+        .preloader-is-hidden #preloader {
+            display: none !important;
+        }
+    </style>
+    <script>
+        // Add a class to hide the preloader if it's not the first visit
+        (function() {
+            const isReload = performance.getEntriesByType("navigation")[0]?.type === 'reload';
+
+            // If it's a reload, we want to see the preloader, so we clear the session storage flag.
+            if (isReload) {
+                sessionStorage.removeItem('preloader-shown');
+            }
+
+            // Hide preloader only if it has been shown before and it's not a reload.
+            if (sessionStorage.getItem('preloader-shown') && !isReload) {
+                document.documentElement.classList.add('preloader-is-hidden');
+            }
+        })();
+    </script>
+
+
 </head>
 
 
@@ -34,10 +58,15 @@
     <!-- preloader
     ================================================== -->
     <div id="preloader">
-        <div id="loader" class="dots-fade">
-            <div></div>
-            <div></div>
-            <div></div>
+        <div id="loader">
+            <div class="loader-words">
+                <span class="loader-word">Hello</span>
+                <span class="loader-word">ഹലോ</span>
+                <span class="loader-word">नमस्ते</span>
+                <span class="loader-word">Bonjour</span>
+                <span class="loader-word">Ciao</span>
+                <span class="loader-word">Nǐ hǎo</span>
+            </div>
         </div>
     </div>
 
@@ -546,7 +575,7 @@
                 </div>
                 <div class="column xl-6 lg-12">
                     <p class="ss-copyright">
-                        <span>© Copyright Upbiz 2022</span> 
+                        <span>© Copyright Upbiz 2024-2025</span> 
                     </p>
                 </div>
 
@@ -565,26 +594,18 @@
     ================================================== -->
     <script src="js/plugins.js"></script>
     <script src="js/main.js"></script>
+    <script>
+        // Handle one-time preloader logic
+        (function() {
+            // If preloader was hidden, we need to manually trigger the content to show.
+            if (document.documentElement.classList.contains('preloader-is-hidden')) {
+                const siteBody = document.querySelector('body');
+                siteBody.classList.add('ss-show');
+            }
+            sessionStorage.setItem('preloader-shown', 'true');
+        })();
+    </script>
 
 </body>
 
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
