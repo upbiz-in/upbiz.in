@@ -1833,38 +1833,45 @@ img,
 	opacity: 0; /* All words start hidden */
 }
 
-/* --- PRELOADER ANIMATION SEQUENCE --- */
+/* --- PRELOADER ANIMATION LOOP --- */
+/* This animation will loop until the page is loaded. */
 
-/* 1. "Hello": Fades in after 1s, then fades out. */
-.loader-word:nth-child(1) {
-	animation: fadeIn 0.2s linear 1s forwards, fadeOut 0.1s linear 1.7s forwards;
-	animation: fadeIn 0.2s linear 1s forwards, fadeOut 0.1s linear 1.5s forwards;
+.loader-word {
+	animation-name: wordLoop;
+	animation-duration: 4.5s; /* Total duration of one full loop */
+	animation-timing-function: steps(1, end);
+	animation-iteration-count: infinite;
+}
+/* Stagger the start of each word's animation */
+.loader-word:nth-child(1) { animation-delay: 1.0s; } /* Hello */
+.loader-word:nth-child(2) { animation-delay: 1.5s; } /* ഹലോ */
+.loader-word:nth-child(3) { animation-delay: 2.0s; } /* नमस्ते */
+.loader-word:nth-child(4) { animation-delay: 2.5s; } /* Bonjour */
+.loader-word:nth-child(5) { animation-delay: 3.0s; } /* Ciao */
+.loader-word:nth-child(6) { animation-delay: 3.5s; } /* 你好 */
+
+@keyframes wordLoop {
+	0% { opacity: 1; }   /* Appear */
+	11.11% { opacity: 1; } /* Stay visible for 0.5s (0.5 / 4.5) */
+	11.12% { opacity: 0; } /* Disappear */
+	100% { opacity: 0; }
 }
 
-/* 2. Intermediate words: Appear instantly, then disappear. Using two animations for maximum compatibility. */
-.loader-word:nth-child(2) { animation: fadeIn 0.1s steps(1, end) 1.8s forwards, fadeOut 0.1s steps(1, end) 2.2s forwards; } /* ഹലോ */
-.loader-word:nth-child(3) { animation: fadeIn 0.1s steps(1, end) 2.2s forwards, fadeOut 0.1s steps(1, end) 2.6s forwards; } /* नमस्ते */
-.loader-word:nth-child(4) { animation: fadeIn 0.1s steps(1, end) 2.6s forwards, fadeOut 0.1s steps(1, end) 3.0s forwards; } /* Bonjour */
-.loader-word:nth-child(5) { animation: fadeIn 0.1s steps(1, end) 3.0s forwards, fadeOut 0.1s steps(1, end) 3.4s forwards; } /* Ciao */
-.loader-word:nth-child(2) { animation: fadeIn 0.1s steps(1, end) 1.6s forwards, fadeOut 0.1s steps(1, end) 1.9s forwards; } /* ഹലോ */
-.loader-word:nth-child(3) { animation: fadeIn 0.1s steps(1, end) 1.9s forwards, fadeOut 0.1s steps(1, end) 2.2s forwards; } /* नमस्ते */
-.loader-word:nth-child(4) { animation: fadeIn 0.1s steps(1, end) 2.2s forwards, fadeOut 0.1s steps(1, end) 2.5s forwards; } /* Bonjour */
-.loader-word:nth-child(5) { animation: fadeIn 0.1s steps(1, end) 2.5s forwards, fadeOut 0.1s steps(1, end) 2.8s forwards; } /* Ciao */
+/* --- FINAL ANIMATION ON PAGE LOAD --- */
+/* When .ss-loaded is added, override the loop and show the final word. */
 
-/* 3. Final word: Appears and stays visible */
-.loader-word:last-child {
-	animation: fadeIn 0.1s steps(1, end) 3.4s forwards;
-	animation: fadeIn 0.1s steps(1, end) 2.8s forwards;
+.ss-loaded .loader-word {
+	animation: none !important; /* Stop the looping animation */
+	opacity: 0; /* Hide all words by default */
+}
+
+.ss-loaded .loader-word:last-child {
+	animation: fadeIn 0.2s linear forwards !important; /* Fade in the last word and keep it visible */
 }
 
 @keyframes fadeIn {
 	from { opacity: 0; }
 	to { opacity: 1; }
-}
-
-@keyframes fadeOut {
-	from { opacity: 1; }
-	to { opacity: 0; }
 }
 
 /* ------------------------------------------------------------------- 
