@@ -1828,43 +1828,43 @@ img,
 	top: 50%;
 	transform: translate(-50%, -50%);
 	text-align: center;
+	white-space: nowrap; /* Prevents text from wrapping to a new line */
+	min-width: 500px; /* Prevents word wrapping on smaller screens */
 	opacity: 0; /* All words start hidden */
 }
 
 /* --- PRELOADER ANIMATION SEQUENCE --- */
 
-/* 1. "Hello": Fades in after 1s, stays for 0.7s */
+/* 1. "Hello": Fades in after 1s, then fades out. */
 .loader-word:nth-child(1) {
-	animation: initialFadeInOut 1.7s linear forwards;
+	animation: fadeIn 0.2s linear 1s forwards, fadeOut 0.1s linear 1.7s forwards;
+	animation: fadeIn 0.2s linear 1s forwards, fadeOut 0.1s linear 1.5s forwards;
 }
 
-/* 2. Intermediate words: Appear and stay for 0.4s each */
-.loader-word:nth-child(2) { animation: popInOut 0.4s steps(1, end) 1.7s forwards; } /* ഹലോ */
-.loader-word:nth-child(3) { animation: popInOut 0.4s steps(1, end) 2.1s forwards; } /* नमस्ते */
-.loader-word:nth-child(4) { animation: popInOut 0.4s steps(1, end) 2.5s forwards; } /* Bonjour */
-.loader-word:nth-child(5) { animation: popInOut 0.4s steps(1, end) 2.9s forwards; } /* Ciao */
+/* 2. Intermediate words: Appear instantly, then disappear. Using two animations for maximum compatibility. */
+.loader-word:nth-child(2) { animation: fadeIn 0.1s steps(1, end) 1.8s forwards, fadeOut 0.1s steps(1, end) 2.2s forwards; } /* ഹലോ */
+.loader-word:nth-child(3) { animation: fadeIn 0.1s steps(1, end) 2.2s forwards, fadeOut 0.1s steps(1, end) 2.6s forwards; } /* नमस्ते */
+.loader-word:nth-child(4) { animation: fadeIn 0.1s steps(1, end) 2.6s forwards, fadeOut 0.1s steps(1, end) 3.0s forwards; } /* Bonjour */
+.loader-word:nth-child(5) { animation: fadeIn 0.1s steps(1, end) 3.0s forwards, fadeOut 0.1s steps(1, end) 3.4s forwards; } /* Ciao */
+.loader-word:nth-child(2) { animation: fadeIn 0.1s steps(1, end) 1.6s forwards, fadeOut 0.1s steps(1, end) 1.9s forwards; } /* ഹലോ */
+.loader-word:nth-child(3) { animation: fadeIn 0.1s steps(1, end) 1.9s forwards, fadeOut 0.1s steps(1, end) 2.2s forwards; } /* नमस्ते */
+.loader-word:nth-child(4) { animation: fadeIn 0.1s steps(1, end) 2.2s forwards, fadeOut 0.1s steps(1, end) 2.5s forwards; } /* Bonjour */
+.loader-word:nth-child(5) { animation: fadeIn 0.1s steps(1, end) 2.5s forwards, fadeOut 0.1s steps(1, end) 2.8s forwards; } /* Ciao */
 
 /* 3. Final word: Appears and stays visible */
 .loader-word:last-child {
-	animation: fadeInStay 0.1s steps(1, end) 3.3s forwards;
+	animation: fadeIn 0.1s steps(1, end) 3.4s forwards;
+	animation: fadeIn 0.1s steps(1, end) 2.8s forwards;
 }
 
-@keyframes initialFadeInOut {
-    0% { opacity: 0; }    /* Start transparent */
-    58.82% { opacity: 1; } /* Fade in (1s / 1.7s) */
-    99.9% { opacity: 1; } /* Stay visible for 0.7s */
-    100% { opacity: 0; }  /* Instantly disappear */
+@keyframes fadeIn {
+	from { opacity: 0; }
+	to { opacity: 1; }
 }
 
-@keyframes popInOut {
-	0% { opacity: 1; }   /* Appear instantly */
-	99.9% { opacity: 1; }  /* Stay visible for the duration */
-	100% { opacity: 0; } /* Disappear instantly */
-}
-
-@keyframes fadeInStay {
-	0% { opacity: 0; }
-	100% { opacity: 1; }
+@keyframes fadeOut {
+	from { opacity: 1; }
+	to { opacity: 0; }
 }
 
 /* ------------------------------------------------------------------- 
