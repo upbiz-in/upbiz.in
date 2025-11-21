@@ -1519,8 +1519,8 @@ hr.fancy::before {
 .lead,
 .attention-getter {
 	font-family: var(--font-1);
-	font-size  : var(--text-md);
-	line-height: var(--vspace-1_25);
+	font-size  : var(--text-xl);
+	line-height: var(--vspace-1_75);
 }
 
 @media screen and (max-width: 800px) {
@@ -3907,6 +3907,17 @@ td:last-child {
 .s-about__social svg circle {
 	fill: var(--color-3);
 }
+
+/* Karaoke/Fill-in text effect */
+#gradient-text span {
+    color: #444; /* Dim initial color */
+    transition: color 0.1s ease-in-out;
+}
+
+#gradient-text span.active {
+    color: var(--color-3); /* Active (bright) color */
+}
+
 
 /* ------------------------------------------------------------------- 
  * responsive:

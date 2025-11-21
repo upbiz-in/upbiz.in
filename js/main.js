@@ -404,6 +404,66 @@
 
     }; // end ssAnimateOnScroll
 
+   /* A utility function to map a value from one range to another.
+    * ------------------------------------------------------ */
+   const mapRange = (value, inMin, inMax, outMin, outMax) => {
+       // Ensure the input value is within the input range
+       const val = Math.max(inMin, Math.min(inMax, value));
+       // Map the value to the output range
+       return (val - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+   };
+
+   /* Gradient Text on Scroll
+    * ------------------------------------------------------ */
+    const ssGradientText = function() {
+        const gradientText = document.querySelector('#gradient-text');
+        const textContainer = gradientText.parentElement; // The element to track for scroll progress
+        if (!gradientText || !textContainer) return;
+
+        const originalText = gradientText.innerText;
+        const chars = originalText.split('');
+        
+        // Clear original text and wrap each character in a span
+        gradientText.innerHTML = '';
+        chars.forEach(char => {
+            const span = document.createElement('span');
+            span.textContent = char;
+            gradientText.appendChild(span);
+        });
+
+        const charSpans = gradientText.querySelectorAll('span');
+        const totalChars = charSpans.length;
+
+        const updateTextHighlight = () => {
+            const rect = textContainer.getBoundingClientRect();
+            const elementTop = rect.top;
+            const viewportHeight = window.innerHeight;
+
+            // Define the scroll zone in terms of viewport height (vh)
+            const REVEAL_START_VH = 0.75; // Start when element top is 75% down the screen
+            const REVEAL_END_VH = 0.25;   // Finish when element top is 25% down the screen
+
+            // As we scroll down, `elementTop` decreases. We want to map this decreasing value
+            // to an increasing progress from 0 to 1. The animation starts when the element's top
+            // is at `REVEAL_START_VH` and ends when it reaches `REVEAL_END_VH`.
+            let scrollProgress = mapRange(elementTop, viewportHeight * REVEAL_END_VH, viewportHeight * REVEAL_START_VH, 1, 0);
+
+            // Clamp progress between 0 and 1
+            scrollProgress = Math.max(0, Math.min(1, scrollProgress));
+
+            console.log('Scroll Progress:', scrollProgress);
+
+            const charsToHighlight = Math.floor(totalChars * scrollProgress);
+
+            charSpans.forEach((span, index) => {
+                span.classList.toggle('active', index < charsToHighlight);
+            });
+        };
+
+        // Run on load and on scroll
+        window.addEventListener('scroll', updateTextHighlight);
+        updateTextHighlight(); // Initial call
+    };
 
    /* Initialize
     * ------------------------------------------------------ */
@@ -415,6 +475,7 @@
         ssMailChimpForm();
         ssAlertBoxes();
         ssAnimateOnScroll();
+        ssGradientText();
         ssMoveTo();
 
     })();
