@@ -377,6 +377,33 @@
 
     }; // end ssMoveTo
 
+   /* Animate on scroll
+    * ------------------------------------------------------ */
+    const ssAnimateOnScroll = function() {
+
+        const blocks = document.querySelectorAll('.expertise-right .list-items__item');
+        if (!blocks.length) return;
+
+        const observer = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                } else {
+                    entry.target.classList.remove('is-visible');
+                }
+            });
+        }, {
+            root: null,
+            rootMargin: "0px",
+            threshold: 0.1 // item is 10% visible
+        });
+
+        blocks.forEach(function(block) {
+            observer.observe(block);
+        });
+
+    }; // end ssAnimateOnScroll
+
 
    /* Initialize
     * ------------------------------------------------------ */
@@ -387,6 +414,7 @@
         ssSwiper();
         ssMailChimpForm();
         ssAlertBoxes();
+        ssAnimateOnScroll();
         ssMoveTo();
 
     })();
