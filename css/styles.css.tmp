@@ -1336,7 +1336,8 @@ b {
 
 em,
 i {
-	font-style: italic;
+\tfont-family: var(--font-2);
+\tfont-style: italic;
 }
 
 strong,
@@ -3979,11 +3980,12 @@ td:last-child {
 
 /* Conditional styling for active chars inside highlight-word */
 .highlight-word .char.active {
-	font-family: var(--font-2);
-	font-style: italic;
-	font-weight: normal;
-	font-size: 1.35em;
-	transition: color 0.1s ease-in-out, font-style 0.3s ease, font-weight 0.3s ease, font-size 0.3s ease;
+\tfont-family: var(--font-2);
+\tfont-style: italic;
+	font-weight: bold;
+	text-decoration: underline;
+	text-decoration-color: var(--color-3);
+	transition: color 0.1s ease-in-out, text-decoration 0.3s ease, font-style 0.3s ease, font-weight 0.3s ease;
 }
 
 
