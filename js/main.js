@@ -3,21 +3,21 @@
  *
  * ------------------------------------------------------------------- */
 
-(function(html) {
+(function (html) {
 
     'use strict';
 
     const cfg = {
 
         // MailChimp URL
-        mailChimpURL : 'https://facebook.us1.list-manage.com/subscribe/post?u=1abf75f6981256963a47d197a&amp;id=37c6d8f4d6' 
+        mailChimpURL: 'https://facebook.us1.list-manage.com/subscribe/post?u=1abf75f6981256963a47d197a&amp;id=37c6d8f4d6'
 
     };
 
 
-   /* preloader
-    * -------------------------------------------------- */
-    const ssPreloader = function() {
+    /* preloader
+     * -------------------------------------------------- */
+    const ssPreloader = function () {
 
         const preloader = document.querySelector('#preloader');
         if (!preloader) return;
@@ -26,15 +26,15 @@
         const minDisplayTime = 3300; // 1s delay + 0.5s + 4*0.3s + 0.3s + 300ms buffer
         const startTime = Date.now();
 
-        html.classList.add('ss-preload');        
-        
-        window.addEventListener('load', function() {
+        html.classList.add('ss-preload');
+
+        window.addEventListener('load', function () {
             const elapsedTime = Date.now() - startTime;
             const hideDelay = (elapsedTime >= minDisplayTime) ? 0 : minDisplayTime - elapsedTime;
 
-            setTimeout(function() {
+            setTimeout(function () {
                 preloader.addEventListener('transitionend', function afterTransition(e) {
-                    if (e.target.matches('#preloader'))  {
+                    if (e.target.matches('#preloader')) {
                         siteBody.classList.add('ss-show');
                         e.target.style.display = 'none';
                         e.target.style.visibility = 'hidden';
@@ -49,9 +49,9 @@
     }; // end ssPreloader
 
 
-   /* mobile menu
-    * ---------------------------------------------------- */ 
-    const ssMobileMenu = function() {
+    /* mobile menu
+     * ---------------------------------------------------- */
+    const ssMobileMenu = function () {
 
         const toggleButton = document.querySelector('.s-header__menu-toggle');
         const mainNavWrap = document.querySelector('.s-header__nav');
@@ -59,15 +59,15 @@
 
         if (!(toggleButton && mainNavWrap)) return;
 
-        toggleButton.addEventListener('click', function(e) {
+        toggleButton.addEventListener('click', function (e) {
             e.preventDefault();
             toggleButton.classList.toggle('is-clicked');
             siteBody.classList.toggle('menu-is-open');
         });
 
-        mainNavWrap.querySelectorAll('.s-header__nav a').forEach(function(link) {
+        mainNavWrap.querySelectorAll('.s-header__nav a').forEach(function (link) {
 
-            link.addEventListener("click", function(event) {
+            link.addEventListener("click", function (event) {
 
                 // at 900px and below
                 if (window.matchMedia('(max-width: 900px)').matches) {
@@ -77,7 +77,7 @@
             });
         });
 
-        window.addEventListener('resize', function() {
+        window.addEventListener('resize', function () {
 
             // above 900px
             if (window.matchMedia('(min-width: 901px)').matches) {
@@ -89,9 +89,9 @@
     }; // end ssMobileMenu
 
 
-   /* swiper
-    * ------------------------------------------------------ */ 
-    const ssSwiper = function() {
+    /* swiper
+     * ------------------------------------------------------ */
+    const ssSwiper = function () {
 
         const homeSliderSwiper = new Swiper('.home-slider', {
 
@@ -153,9 +153,9 @@
     }; // end ssSwiper
 
 
-   /* mailchimp form
-    * ---------------------------------------------------- */ 
-    const ssMailChimpForm = function() {
+    /* mailchimp form
+     * ---------------------------------------------------- */
+    const ssMailChimpForm = function () {
 
         const mcForm = document.querySelector('#mc-form');
 
@@ -219,7 +219,7 @@
         window.displayMailChimpStatus = function (data) {
 
             // Make sure the data is in the right format and that there's a status container
-            if (!data.result || !data.msg || !mcStatus ) return;
+            if (!data.result || !data.msg || !mcStatus) return;
 
             // Update our status message
             mcStatus.innerHTML = data.msg;
@@ -249,8 +249,8 @@
             url += serialize + '&c=displayMailChimpStatus';
 
             // Create script with url and callback (if specified)
-            var ref = window.document.getElementsByTagName( 'script' )[ 0 ];
-            var script = window.document.createElement( 'script' );
+            var ref = window.document.getElementsByTagName('script')[0];
+            var script = window.document.createElement('script');
             script.src = url;
 
             // Create global variable for the status container
@@ -259,7 +259,7 @@
             window.mcStatus.innerText = 'Submitting...';
 
             // Insert script tag into the DOM
-            ref.parentNode.insertBefore( script, ref );
+            ref.parentNode.insertBefore(script, ref);
 
             // After the script is loaded (and executed), remove it
             script.onload = function () {
@@ -289,20 +289,20 @@
     }; // end ssMailChimpForm
 
 
-   /* alert boxes
-    * ------------------------------------------------------ */
-    const ssAlertBoxes = function() {
+    /* alert boxes
+     * ------------------------------------------------------ */
+    const ssAlertBoxes = function () {
 
         const boxes = document.querySelectorAll('.alert-box');
-  
-        boxes.forEach(function(box){
 
-            box.addEventListener('click', function(e) {
+        boxes.forEach(function (box) {
+
+            box.addEventListener('click', function (e) {
                 if (e.target.matches('.alert-box__close')) {
                     e.stopPropagation();
                     e.target.parentElement.classList.add('hideit');
 
-                    setTimeout(function() {
+                    setTimeout(function () {
                         box.style.display = 'none';
                     }, 500)
                 }
@@ -314,7 +314,7 @@
 
     /* Back to Top
     * ------------------------------------------------------ */
-    const ssBackToTop = function() {
+    const ssBackToTop = function () {
 
         const pxShow = 900;
         const goTopButton = document.querySelector(".ss-go-top");
@@ -324,9 +324,9 @@
         // Show or hide the button
         if (window.scrollY >= pxShow) goTopButton.classList.add("link-is-visible");
 
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             if (window.scrollY >= pxShow) {
-                if(!goTopButton.classList.contains('link-is-visible')) goTopButton.classList.add("link-is-visible")
+                if (!goTopButton.classList.contains('link-is-visible')) goTopButton.classList.add("link-is-visible")
             } else {
                 goTopButton.classList.remove("link-is-visible")
             }
@@ -335,9 +335,9 @@
     }; // end ssBackToTop
 
 
-   /* smoothscroll
-    * ------------------------------------------------------ */
-    const ssMoveTo = function() {
+    /* smoothscroll
+     * ------------------------------------------------------ */
+    const ssMoveTo = function () {
 
         const easeFunctions = {
             easeInQuad: function (t, b, c, d) {
@@ -346,24 +346,24 @@
             },
             easeOutQuad: function (t, b, c, d) {
                 t /= d;
-                return -c * t* (t - 2) + b;
+                return -c * t * (t - 2) + b;
             },
             easeInOutQuad: function (t, b, c, d) {
-                t /= d/2;
-                if (t < 1) return c/2*t*t + b;
+                t /= d / 2;
+                if (t < 1) return c / 2 * t * t + b;
                 t--;
-                return -c/2 * (t*(t-2) - 1) + b;
+                return -c / 2 * (t * (t - 2) - 1) + b;
             },
             easeInOutCubic: function (t, b, c, d) {
-                t /= d/2;
-                if (t < 1) return c/2*t*t*t + b;
+                t /= d / 2;
+                if (t < 1) return c / 2 * t * t * t + b;
                 t -= 2;
-                return c/2*(t*t*t + 2) + b;
+                return c / 2 * (t * t * t + 2) + b;
             }
         }
 
         const triggers = document.querySelectorAll('.smoothscroll');
-        
+
         const moveTo = new MoveTo({
             tolerance: 0,
             duration: 1200,
@@ -371,20 +371,20 @@
             container: window
         }, easeFunctions);
 
-        triggers.forEach(function(trigger) {
+        triggers.forEach(function (trigger) {
             moveTo.registerTrigger(trigger);
         });
 
     }; // end ssMoveTo
 
-   /* Animate on scroll
-    * ------------------------------------------------------ */
-    const ssAnimateOnScroll = function() {
+    /* Animate on scroll
+     * ------------------------------------------------------ */
+    const ssAnimateOnScroll = function () {
 
         const blocks = document.querySelectorAll('.expertise-right .list-items__item');
         if (!blocks.length) return;
 
-        const observer = new IntersectionObserver(function(entries, observer) {
+        const observer = new IntersectionObserver(function (entries, observer) {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('is-visible');
@@ -398,40 +398,62 @@
             threshold: 0.1 // item is 10% visible
         });
 
-        blocks.forEach(function(block) {
+        blocks.forEach(function (block) {
             observer.observe(block);
         });
 
     }; // end ssAnimateOnScroll
 
-   /* A utility function to map a value from one range to another.
+    /* A utility function to map a value from one range to another.
     * ------------------------------------------------------ */
-   const mapRange = (value, inMin, inMax, outMin, outMax) => {
-       // Ensure the input value is within the input range
-       const val = Math.max(inMin, Math.min(inMax, value));
-       // Map the value to the output range
-       return (val - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
-   };
+    const mapRange = (value, inMin, inMax, outMin, outMax) => {
+        // Ensure the input value is within the input range
+        const val = Math.max(inMin, Math.min(inMax, value));
+        // Map the value to the output range
+        return (val - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+    };
 
-   /* Gradient Text on Scroll
-    * ------------------------------------------------------ */
-    const ssGradientText = function() {
+    /* Gradient Text on Scroll
+     * ------------------------------------------------------ */
+    const ssGradientText = function () {
         const gradientText = document.querySelector('#gradient-text');
         const textContainer = gradientText.parentElement; // The element to track for scroll progress
         if (!gradientText || !textContainer) return;
 
         const originalText = gradientText.innerText;
-        const chars = originalText.split('');
-        
-        // Clear original text and wrap each character in a span
+        const targetWords = ["creating", "managing", "supporting"];
+
+        // Clear original text
         gradientText.innerHTML = '';
-        chars.forEach(char => {
-            const span = document.createElement('span');
-            span.textContent = char;
-            gradientText.appendChild(span);
+
+        // Split by whitespace but keep delimiters to preserve spacing
+        const tokens = originalText.split(/(\s+)/);
+
+        tokens.forEach(token => {
+            // Check if the token (trimmed of punctuation for matching) is a target word
+            // We remove punctuation for the check but keep the token as is for display
+            const cleanToken = token.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, "").toLowerCase();
+            const isTarget = targetWords.includes(cleanToken);
+
+            let container = gradientText;
+            if (isTarget) {
+                const highlightSpan = document.createElement('span');
+                highlightSpan.classList.add('highlight-word');
+                gradientText.appendChild(highlightSpan);
+                container = highlightSpan;
+            }
+
+            // Create char spans
+            const chars = token.split('');
+            chars.forEach(char => {
+                const span = document.createElement('span');
+                span.textContent = char;
+                span.classList.add('char');
+                container.appendChild(span);
+            });
         });
 
-        const charSpans = gradientText.querySelectorAll('span');
+        const charSpans = gradientText.querySelectorAll('.char');
         const totalChars = charSpans.length;
 
         const updateTextHighlight = () => {
@@ -451,7 +473,7 @@
             // Clamp progress between 0 and 1
             scrollProgress = Math.max(0, Math.min(1, scrollProgress));
 
-            console.log('Scroll Progress:', scrollProgress);
+            // console.log('Scroll Progress:', scrollProgress);
 
             const charsToHighlight = Math.floor(totalChars * scrollProgress);
 
@@ -465,8 +487,8 @@
         updateTextHighlight(); // Initial call
     };
 
-   /* Initialize
-    * ------------------------------------------------------ */
+    /* Initialize
+     * ------------------------------------------------------ */
     (function ssInit() {
 
         ssPreloader();
