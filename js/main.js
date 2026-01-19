@@ -487,6 +487,60 @@
         updateTextHighlight(); // Initial call
     };
 
+    /* Sticky Intro Animation
+     * ------------------------------------------------------ */
+    const ssStickyIntro = function () {
+        const intro = document.querySelector('.s-intro');
+        const about = document.querySelector('.s-about');
+        const introContent = document.querySelector('.s-intro__content');
+
+        if (!intro || !about || !introContent) return;
+
+        function updateIntro() {
+            const aboutRect = about.getBoundingClientRect();
+            const introHeight = intro.offsetHeight;
+            const windowHeight = window.innerHeight;
+
+            // Check if about section is entering the viewport
+            // We want the effect to start when About is approaching the intro
+            // Since Intro is sticky, it stays at top. About scrolls UP over it.
+            // visual overlapping starts when aboutRect.top < windowHeight
+
+            // However, since Intro is sticky height: 100vh (effectively), 
+            // the overlap happens when aboutRect.top comes into view from bottom.
+            // But usually sticky works by parent scroll.
+
+            // Let's assume standard flow: Intro is 100vh. About is below.
+            // When we scroll, Intro sticks. About scrolls up covering it.
+            // Overlap progress: when aboutRect.top is between windowHeight and 0.
+
+            if (aboutRect.top <= windowHeight && aboutRect.top >= 0) {
+                // Progress: 0 (about at bottom) -> 1 (about at top)
+                const progress = 1 - (aboutRect.top / windowHeight);
+
+                // Fade out and scale down
+                const opacity = 1 - progress; // opacity goes 1 -> 0
+                const scale = 1 - (progress * 0.15); // scale goes 1 -> 0.85
+                const yPos = progress * 100; // Move down slightly
+
+                introContent.style.opacity = Math.max(0, opacity);
+                introContent.style.transform = `scale(${scale}) translateY(${yPos}px)`;
+            } else if (aboutRect.top > windowHeight) {
+                // Reset if above
+                introContent.style.opacity = 1;
+                introContent.style.transform = 'scale(1) translateY(0)';
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            requestAnimationFrame(updateIntro);
+        });
+
+        // Initial call
+        updateIntro();
+    };
+
+
     /* Initialize
      * ------------------------------------------------------ */
     (function ssInit() {
@@ -499,6 +553,7 @@
         ssAnimateOnScroll();
         ssGradientText();
         ssMoveTo();
+        ssStickyIntro();
 
     })();
 
