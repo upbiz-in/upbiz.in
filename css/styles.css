@@ -3913,6 +3913,21 @@ td:last-child {
 		--content-padding-top: max(12rem, 16vh);
 	}
 
+	.s-intro__content-media {
+		grid-column: 6/-1;
+		/* Move more to right */
+		margin-top: -45rem;
+		/* Move higher up */
+		z-index: 0;
+		/* Behind text if necessary, though opacity handles blending */
+		opacity: 0.6;
+		/* Fade it a bit so text is readable over it */
+		width: 150%;
+		/* Bigger */
+		transform: translateX(15%);
+		/* More to the right */
+	}
+
 	.s-intro__content-media .lines {
 		width: 200%;
 		transform: translate(-100%, 0);
@@ -4220,6 +4235,13 @@ td:last-child {
 }
 
 
+
+@media screen and (max-width: 600px) {
+	.logo-carousel__track {
+		animation-duration: 20s;
+		/* Faster on mobile */
+	}
+}
 
 /* ===================================================================
  * # CTA
@@ -5029,11 +5051,19 @@ td:last-child {
 
 @media screen and (max-width: 600px) {
 	.s-intro__values {
-		gap: 1.2rem;
+		gap: 0.8rem;
 		flex-direction: column;
-		align-items: center;
+		align-items: flex-start;
+		/* Left align */
 		/* Center on mobile because intro text is centered */
 		margin-top: var(--vspace-1);
+		padding-left: 0;
+		/* Move to left edge */
+	}
+
+	.s-intro__value-item {
+		font-size: 1.5rem;
+		/* Smaller font on mobile */
 	}
 }
 
@@ -5144,7 +5174,15 @@ td:last-child {
 	.s-intro__trusted {
 		flex-direction: column;
 		gap: 1.6rem;
-		text-align: center;
+		text-align: left;
+		/* Left align */
+		align-items: flex-start;
+		/* Flex start */
+		padding-left: 0;
+		/* Move to left edge */
+		transform: scale(0.9);
+		/* Smaller */
+		transform-origin: left top;
 	}
 
 	.trusted-divider {
@@ -5152,7 +5190,8 @@ td:last-child {
 	}
 
 	.trusted-avatars {
-		justify-content: center;
+		justify-content: flex-start;
+		/* Left align */
 		padding-left: 0;
 	}
 
@@ -5160,7 +5199,12 @@ td:last-child {
 		margin: 0 -0.8rem;
 	}
 
+	.trusted-avatars img:first-child {
+		margin-left: 0;
+	}
+
 	.trusted-content {
-		align-items: center;
+		align-items: flex-start;
+		/* Left align */
 	}
 }
