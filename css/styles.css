@@ -3547,9 +3547,8 @@ td:last-child {
 	--content-min-height: calc(var(--vspace-1) * 27);
 	z-index: 1;
 	/* Lower z-index for sticky overlap */
-	background-color: #18201B;
-	/* Updated background color */
-	/* background: linear-gradient(20deg, hsl(130deg, 8%, 14%) 40%, hsl(0deg, 0%, 13%) 100%); REMOVED GRADIENT to respect user request */
+	/* background-color: #18201B; REMOVED flat color to restore gradient */
+	background: linear-gradient(20deg, hsl(130deg, 8%, 14%) 40%, hsl(0deg, 0%, 13%) 100%);
 	width: 100%;
 	height: max(var(--content-min-height), 100vh);
 	overflow: hidden;
@@ -4127,38 +4126,13 @@ td:last-child {
  *
  *
  * ------------------------------------------------------------------- */
-.s-clients {
-	padding-top: var(--vspace-6);
-	padding-bottom: var(--vspace-4);
-	background-color: var(--color-3);
-}
 
-.s-clients__content-block:first-child {
-	margin-bottom: var(--vspace-1_75);
-}
-
-.s-clients__content-block:first-child .grid-block {
-	--grid-gap-v: 0;
-}
-
-.s-clients__content-block:first-child .grid-section-split__primary {
-	grid-row: auto;
-}
-
-/* --------------------------------------------------------------------
- * ## clients list
- * -------------------------------------------------------------------- */
-/* --------------------------------------------------------------------
- * ## clients carousel
- * -------------------------------------------------------------------- */
 /* --------------------------------------------------------------------
  * ## clients carousel
  * -------------------------------------------------------------------- */
 .s-clients {
 	padding-top: var(--vspace-4);
-	/* Maintained top padding */
 	padding-bottom: var(--vspace-2);
-	/* Reduced bottom padding */
 	background-color: #18201B;
 	/* Dark background matching intro */
 	overflow: hidden;
@@ -4206,6 +4180,8 @@ td:last-child {
 
 .logo-carousel__track {
 	display: flex;
+	flex-wrap: nowrap;
+	/* FORCE nowrap used for marquee */
 	align-items: center;
 	gap: 10rem;
 	/* Increased spacing for bigger logos */
