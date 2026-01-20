@@ -1011,6 +1011,29 @@ pre {
 	overflow: auto;
 }
 
+/* Lenis Smooth Scroll
+ * ------------------------------------------------------------------- */
+html.lenis {
+	height: auto;
+}
+
+.lenis.lenis-smooth {
+	scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+	overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+	overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+	pointer-events: none;
+}
+
+
 div,
 dl,
 dt,
@@ -3919,9 +3942,7 @@ td:last-child {
 		margin-top: -45rem;
 		/* Move higher up */
 		z-index: 0;
-		/* Behind text if necessary, though opacity handles blending */
-		opacity: 0.6;
-		/* Fade it a bit so text is readable over it */
+		/* Behind text if necessary */
 		width: 150%;
 		/* Bigger */
 		transform: translateX(15%);

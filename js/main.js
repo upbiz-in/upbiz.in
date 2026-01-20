@@ -541,6 +541,52 @@
     };
 
 
+    /* Lenis Smooth Scroll
+     * ------------------------------------------------------ */
+    const ssLenisScroll = function () {
+
+        // Only disable on actual mobile/tablet devices, not desktop with touch
+        // Check for mobile user agents and small screens
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        const isSmallScreen = window.innerWidth <= 1024;
+        const isMobileDevice = isMobile || (isSmallScreen && 'ontouchstart' in window);
+
+        if (isMobileDevice) {
+            return; // Use native scrolling on mobile
+        }
+
+        // Initialize Lenis
+        const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // easeOutExpo
+            orientation: 'vertical',
+            gestureOrientation: 'vertical',
+            smoothWheel: true,
+            wheelMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+        });
+
+        // Animation frame loop
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
+        requestAnimationFrame(raf);
+
+        // Expose lenis instance globally for other functions
+        window.lenis = lenis;
+
+        // Update scroll-based animations on Lenis scroll
+        lenis.on('scroll', () => {
+            // Trigger custom scroll event for other listeners
+            window.dispatchEvent(new Event('scroll'));
+        });
+
+    }; // end ssLenisScroll
+
+
     /* Initialize
      * ------------------------------------------------------ */
     (function ssInit() {
@@ -554,6 +600,7 @@
         ssGradientText();
         ssMoveTo();
         ssStickyIntro();
+        ssLenisScroll();
 
     })();
 
