@@ -18,33 +18,102 @@
     /* preloader
      * -------------------------------------------------- */
     const ssPreloader = function () {
-
-        const preloader = document.querySelector('#preloader');
-        if (!preloader) return;
+        const preloader = document.querySelector('.ss-preloader');
+        const wordsContainer = document.querySelector('.ss-preloader__words');
+        if (!preloader || !wordsContainer) return;
 
         const siteBody = document.querySelector('body');
-        const minDisplayTime = 3300; // 1s delay + 0.5s + 4*0.3s + 0.3s + 300ms buffer
-        const startTime = Date.now();
 
-        html.classList.add('ss-preload');
+        // Lock scroll immediately
+        siteBody.classList.add('ss-loading');
 
-        window.addEventListener('load', function () {
-            const elapsedTime = Date.now() - startTime;
-            const hideDelay = (elapsedTime >= minDisplayTime) ? 0 : minDisplayTime - elapsedTime;
+        // Greeting words
+        const words = ["• Hello", "• Namaste", "• ഹലോ", "• Bonjour", "• Olà", "• やあ", "• Привет", "• 안녕하세요", "• مرحباa", "• Guten Tag", "Upbiz"];
 
-            setTimeout(function () {
-                preloader.addEventListener('transitionend', function afterTransition(e) {
-                    if (e.target.matches('#preloader')) {
-                        siteBody.classList.add('ss-show');
-                        e.target.style.display = 'none';
-                        e.target.style.visibility = 'hidden';
-                        preloader.removeEventListener(e.type, afterTransition);
-                    }
-                });
-                html.classList.remove('ss-preload');
-                html.classList.add('ss-loaded');
-            }, hideDelay);
+        // Initial setup
+        gsap.set(preloader, { y: 0 });
+        gsap.set(wordsContainer, { opacity: 0 }); // Start hidden for fade-in
+
+        // Master timeline
+        const tl = gsap.timeline({
+            onComplete: () => {
+                siteBody.classList.remove('ss-loading');
+                siteBody.classList.remove('ss-preload');
+                siteBody.classList.add('ss-loaded');
+                siteBody.classList.add('ss-show'); // CRITICAL: Triggers CSS reveal animations
+                gsap.set(preloader, { display: 'none' });
+            }
         });
+
+        // 1. Drumroll Sequence
+        let totalDelay = 0;
+
+        // First word "Hello" fade in
+        tl.to(wordsContainer, { opacity: 1, duration: 0.5, ease: "power2.out" });
+        tl.set(wordsContainer, { innerText: words[0] }, "<"); // Ensure Hello is there at start of fade
+        totalDelay += 0.5; // Fade duration
+
+        // Loop through remaining words
+        // We skip index 0 since we handled it manually above with the fade
+        words.forEach((word, index) => {
+            if (index === 0) {
+                // Just add the hold time for "Hello"
+                totalDelay += 0.8; // Hold Hello for 0.8s *after* fade
+                return;
+            }
+
+            const isLast = index === words.length - 1;
+
+            // Calculate delay: Smoother acceleration
+            let duration = 0.22 - (index * 0.015); // Decay: 0.22 -> 0.11
+            if (duration < 0.17) duration = 0.17; // Cap minimum speed (readable)
+
+            if (isLast) duration = 1;
+
+            tl.call(() => {
+                wordsContainer.innerText = word;
+            }, null, totalDelay);
+
+            totalDelay += duration;
+        });
+
+        // Add a buffer after the drumroll before exit
+        const exitTime = totalDelay;
+
+        // 2. Exit Animation (Curved Reveal)
+        // Move container UP
+        tl.to(preloader, {
+            y: "-100%",
+            duration: 1.2,
+            ease: "power4.inOut"
+        }, exitTime);
+
+        // Animate Curve
+        const startPath = "M0 0 L100 0 L100 100 Q50 100 0 100 Z";
+
+        // Use a deeper curve, but with proper timing so it is visible.
+        // Q50 800 creates a very deep V/U. 
+        const endPath = "M0 0 L100 0 L100 100 Q50 1000 0 100 Z";
+
+        // Set initial path
+        const curvePath = preloader.querySelector('.curve-path');
+        gsap.set(curvePath, { attr: { d: startPath } });
+
+        // Animate to Curve (Starts with movement)
+        // We want the curve to be max at the middle of the upward movement.
+        tl.to(curvePath, {
+            attr: { d: endPath },
+            duration: 0.6,
+            ease: "power2.out"
+        }, exitTime);
+
+        // Animate back to Flat (Ends with movement)
+        // Start this AFTER the first one completes (which is at exitTime + 0.6)
+        tl.to(curvePath, {
+            attr: { d: startPath },
+            duration: 0.6,
+            ease: "power2.in"
+        }, ">"); // ">" means append to the end of the previous timeline insertion (which was exitTime), effectively exitTime + 0.6
 
     }; // end ssPreloader
 
@@ -587,6 +656,27 @@
     }; // end ssLenisScroll
 
 
+    /* Sticky Header
+     * ------------------------------------------------------ */
+    const ssStickyHeader = function () {
+        const header = document.querySelector('.s-header');
+        if (!header) return;
+
+        const triggerHeight = 50;
+
+        const toggleSticky = () => {
+            if (window.scrollY > triggerHeight) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        };
+
+        window.addEventListener('scroll', toggleSticky);
+        // Initial check
+        toggleSticky();
+    };
+
     /* Initialize
      * ------------------------------------------------------ */
     (function ssInit() {
@@ -601,6 +691,7 @@
         ssMoveTo();
         ssStickyIntro();
         ssLenisScroll();
+        ssStickyHeader();
 
     })();
 

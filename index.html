@@ -18,6 +18,7 @@
     ================================================== -->
     <link rel="stylesheet" href="css/vendor.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/preloader.css">
 
     <!-- favicons
     ================================================== -->
@@ -58,16 +59,18 @@
 
     <!-- preloader
     ================================================== -->
-    <div id="preloader">
-        <div id="loader">
-            <div class="loader-words">
-                <span class="loader-word">Hello</span>
-                <span class="loader-word">ഹലോ</span>
-                <span class="loader-word">नमस्ते</span>
-                <span class="loader-word">Bonjour</span>
-                <span class="loader-word">Ciao</span>
-                <span class="loader-word">Nǐ hǎo</span>
+    <!-- preloader
+    ================================================== -->
+    <div id="preloader" class="ss-preloader">
+        <div class="ss-preloader__content">
+            <div class="ss-preloader__words">
+                <!-- Words injected via JS -->
             </div>
+        </div>
+        <div class="ss-preloader__curve">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                <path class="curve-path" d="M0 0 L100 0 L100 100 L0 100 Z" fill="currentColor"></path>
+            </svg>
         </div>
     </div>
 
@@ -80,36 +83,41 @@
         <!-- # site header 
         ================================================== -->
         <header class="s-header">
+            <div class="s-header__logo">
+                <a class="logo" href="index.html">
+                    <img src="images/therealupbizlogo.png" alt="Homepage">
+                </a>
+                <a class="s-header__menu-toggle" href="#0"><span>Menu</span></a>
+            </div>
 
-            <div class="row s-header__inner width-sixteen-col">
+            <nav class="s-header__nav">
+                <ul class="s-header__menu-links">
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="blog.html">Journal</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
 
-                <div class="s-header__block">
-                    <div class="s-header__logo">
-                        <a class="logo" href="index.html">
-                            <img src="images/therealupbizlogo.png" alt="Homepage" style="width: 135px;">
-                        </a>
-                    </div>
-
-                    <a class="s-header__menu-toggle" href="#0"><span>Menu</span></a>
-                </div> <!-- end s-header__block -->
-
-                <nav class="s-header__nav">
-
-                    <ul class="s-header__menu-links">
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="services.html">Services</a></li>
-                        <li><a href="blog.html">Journal</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                    </ul> <!-- s-header__menu-links -->
-
-                    <div class="s-header__contact">
-                        <a href="contact.html" class="btn btn--primary s-header__contact-btn">Let's Work Together</a>
-                    </div> <!-- s-header__contact -->
-
-                </nav> <!-- end s-header__nav -->
-
-            </div> <!-- end s-header__inner -->
-
+            <div class="s-header__contact">
+                <a href="contact.html" class="button" style="--clr: #DE6B48">
+                    <span class="button__icon-wrapper">
+                        <svg viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg" class="button__icon-svg"
+                            width="10">
+                            <path
+                                d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z"
+                                fill="currentColor"></path>
+                        </svg>
+                        <svg viewBox="0 0 14 15" fill="none" width="10" xmlns="http://www.w3.org/2000/svg"
+                            class="button__icon-svg button__icon-svg--copy">
+                            <path
+                                d="M13.376 11.552l-.264-10.44-10.44-.24.024 2.28 6.96-.048L.2 12.56l1.488 1.488 9.432-9.432-.048 6.912 2.304.024z"
+                                fill="currentColor"></path>
+                        </svg>
+                    </span>
+                    Start a Project
+                </a>
+            </div>
         </header> <!-- end s-header -->
 
 
@@ -126,7 +134,8 @@
                     <div class="column lg-12 s-intro__content-inner grid-block">
 
                         <div class="s-intro__content-text">
-                            <div class="s-intro__content-pretitle text-pretitle">Hello, I'm Yogaraj</div>
+                            <div class="s-intro__content-pretitle text-pretitle">• Hiya, we're Upbiz <span
+                                    class="wave">👋</span></div>
                             <h1 class="s-intro__content-title">
                                 Crafting <em>results-driven</em> <br>
                                 digital services.
@@ -284,7 +293,7 @@
                     <div class="column xl-12">
 
                         <div class="section-header" style="text-align: center; margin-bottom: 4rem;">
-                            <h2 style="font-size: 6.5rem; color: #FEF6E6; margin-top: 0;">
+                            <h2 style="font-size: 6.5rem; color: #FEFAE0; margin-top: 0;">
                                 Trusted by <em>g<span class="highlight-text">rowin</span>g</em> brands
                             </h2>
                         </div> <!-- end section-header -->
@@ -622,6 +631,9 @@
     <script src="js/plugins.js"></script>
     <!-- Lenis Smooth Scroll -->
     <script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+    <!-- GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/CustomEase.min.js"></script>
     <script src="js/main.js"></script>
     <script>
         // Handle one-time preloader logic
